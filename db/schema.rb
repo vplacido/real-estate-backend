@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_23_202605) do
+ActiveRecord::Schema.define(version: 2020_05_04_125447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bookings", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "num_guests"
+    t.integer "listing_id"
+    t.integer "buyer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_bookings_on_buyer_id"
+    t.index ["listing_id"], name: "index_bookings_on_listing_id"
+  end
 
   create_table "cities", force: :cascade do |t|
     t.string "city_name"
@@ -37,18 +49,25 @@ ActiveRecord::Schema.define(version: 2020_04_23_202605) do
     t.string "listing_type"
     t.integer "price"
     t.integer "realtor_id"
-    t.integer "town_id"
+    t.float "longitude"
+    t.float "latitude"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer "stars"
-    t.string "description"
-    t.integer "like_id"
-    t.integer "buyer_id"
-    t.integer "listing_id"
-    t.integer "realtor_id"
+    t.integer "buyer_id", null: false
+    t.integer "listing_id", null: false
+    t.text "review"
+    t.integer "rating"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_reviews_on_buyer_id"
+    t.index ["listing_id"], name: "index_reviews_on_listing_id"
+  end
+
+  create_table "tests", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -65,8 +84,12 @@ ActiveRecord::Schema.define(version: 2020_04_23_202605) do
     t.string "username"
     t.string "password"
     t.integer "zipcode"
+    t.string "password_digest"
+    t.string "session_token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["session_token"], name: "index_users_on_session_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   create_table "visits", force: :cascade do |t|

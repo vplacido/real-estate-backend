@@ -5,8 +5,12 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :username
       t.string :password
       t.integer :zipcode
+      t.string :password_digest
+      t.string :session_token
 
       t.timestamps
     end
+    add_index :users, :username, unique: true
+    add_index :users, :session_token, unique: true
   end
 end

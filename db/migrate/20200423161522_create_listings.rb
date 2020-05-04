@@ -7,7 +7,8 @@ class CreateListings < ActiveRecord::Migration[6.0]
       t.string :listing_type
       t.integer :price
       t.integer :realtor_id
-      t.integer :town_id
+      t.float :longitude
+      t.float :latitude
 
       t.timestamps
     end

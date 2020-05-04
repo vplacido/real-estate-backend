@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  resources :bookings
+  resources :tests
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :users
+  resources :users, :cities, :likes, :listings, :reviews, :towns, :visits, :tests
 
   # for jwt authorization
   post "/login", to: "auth#login"
